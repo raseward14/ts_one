@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/raseward14/ts_one/issues"
   },
-  "homepage": "https://github.com/raseward14/ts_one#readme"
+  "homepage": "https://github.com/raseward14/ts_one#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
 }

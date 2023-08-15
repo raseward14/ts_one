@@ -109,7 +109,7 @@ interface ITruck {
 const myTruck: ITruck = {
     model: 'Tacoma',
     make: 'Toyota',
-    display() => { console.log('hi!'); }
+    display() { console.log('hi!'); }
 };
 
 // glimpse into how typescript can make JavaScript more stable and less prone to bugs
