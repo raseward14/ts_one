@@ -56,6 +56,8 @@ type someFunction<A, B> = [A, B];
 //// common practice at value level -> .map() .filter() .reduce() are all higher order functions
 //// wont be able to implement at type level
 
+// 1. TYPE PARAMETERS
+// type inference using type parameters
 /**
  * The `identity` function takes a value of any type
  * and returns it. Make it generic!
@@ -150,3 +152,43 @@ namespace pipe2 {
 
 // computer science lingo - ppl talk about terms rather than values to distinguish code from types
 // value-level vs. type-level code -> makes a little more sense
+
+// real world code needs to be generic - we might not know the type.. it needs to be dynamic
+// hence -> <type parameters!> -> then use them for function value parameters
+// pass type-parameters to a type-level function
+// computes the output from the type of the input
+// TYPE LEVEL PROGRAMMING
+function notUniqueFunction<A, B>(a: A, b: B): CallFunction<A, B> {
+    return callFunction(a, b);
+}
+
+// CallFunction<A, B> is a type-level function written in a peculiar programming language that is different from the language we use for values - Type-Level Typescript
+
+// type-level function:
+type CallFunction<A, B> = {}
+// value-level function:
+const callFunction = (a, b) => {}
+// example of a function taking two type parameters and wrapping them in a tuple:
+//--------this is called generic------
+type doSomeStuff<A, B> = [A, B];
+// <A, B> -> type parameters
+// [] -> tuple
+// [A, B] -> return type
+
+namespace fetchTable1 {
+    declare function fetchTable<Q extends string>(
+        query: Q
+    ): Promise<Q>;
+
+    const res1 = fetchTable("system.cpu.user{*} by {env,account,service}");
+
+    type test1 = Expect<Equal<typeof res1, Promise<"system.cpu.user{*} by {env,account,service}">>>;
+
+    const res2 = fetchTable("perf.render.duration{component:univiz} by {view,viz}");
+
+    type test2 = Expect<Equal<typeof res2, Promise<"perf.render.duration{component:univiz} by {view,viz}">>>;
+
+    // @ts-expect-error: number isnt assignable to string
+    const res3 = fetchTable(123);
+};
+
