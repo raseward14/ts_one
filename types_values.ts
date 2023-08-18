@@ -175,6 +175,8 @@ type doSomeStuff<A, B> = [A, B];
 // [] -> tuple
 // [A, B] -> return type
 
+// string literal type ...extends string
+// https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html
 namespace fetchTable1 {
     declare function fetchTable<Q extends string>(
         query: Q

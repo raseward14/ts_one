@@ -38,3 +38,81 @@ type TheTuple = [...ThisTuple, ...ThatTuple]
 // tuples created with ... are called Variadic Tuples
 
 // Named Indices
+/**
+ * Implement a generic that returns the first type
+ * in a tuple.
+ *
+ * Hint: How would you do it if `Tuple` was a value?
+ */
+namespace first {
+    type First<Tuple extends any[]> = Tuple[0];
+
+    type res1 = First<[]>;
+    type test1 = Expect<Equal<res1, undefined>>;
+
+    type res2 = First<[string]>;
+    type test2 = Expect<Equal<res2, string>>;
+
+    type res3 = First<[2, 3, 4]>;
+    type test3 = Expect<Equal<res3, 2>>;
+
+    type res4 = First<["a", "b", "c"]>;
+    type test4 = Expect<Equal<res4, "a">>;
+};
+
+/**
+ * Implement a generic that adds a type to the end
+ * of a tuple.
+ */
+namespace append {
+    type Append<Tuple extends any[], Element> = [...Tuple, Element]
+
+    type res1 = Append<[1, 2, 3], 4>;
+    type test1 = Expect<Equal<res1, [1, 2, 3, 4]>>;
+
+    type res2 = Append<[], 1>;
+    type test2 = Expect<Equal<res2, [1]>>;
+}
+
+/**
+ * Implement a generic that concatenates two tuples.
+ */
+namespace concat {
+    type Concat<Tuple1 extends any[], Tuple2 extends any[]> = [...Tuple1, ...Tuple2]
+
+    type res1 = Concat<[1, 2, 3], [4, 5]>;
+    type test1 = Expect<Equal<res1, [1, 2, 3, 4, 5]>>;
+
+    type res2 = Concat<[1, 2, 3], []>;
+    type test2 = Expect<Equal<res2, [1, 2, 3]>>;
+}
+
+// https://type-level-typescript.com/arrays-and-tuples#concatenating-tuples
+// We can simultaneously read all indices in a tuple T with T[number]:
+type SomeTuple = ["Bob", 28, true];
+type Values = SomeTuple[number]; // "Bob" | 28 | true
+
+/**
+ * Implement a generic taking a tuple and returning
+ * an array containing the union of all values in this tuple.
+ */
+namespace tupleToArray {
+    type TupleToArray<Tuple extends any[]> = (Tuple[number])[];
+
+    type res1 = TupleToArray<[1, 2, 3]>;
+    type test1 = Expect<Equal<res1, (1 | 2 | 3)[]>>;
+
+    type res2 = TupleToArray<[number, string]>;
+    type test2 = Expect<Equal<res2, (number | string)[]>>;
+
+    type res3 = TupleToArrya<[]>;
+    type test3 = Expect<Equal<res3, never[]>>;
+
+    type res4 = TupleToArray<[1] | [2] | [3]>;
+    type test4 = Expect<Equal<res4, (1 | 2 | 3)[]>>;
+}
+
+/**
+ * Create a generic `NonEmptyArray` type that represents 
+ * Arrays that contain at least one element.
+ */
