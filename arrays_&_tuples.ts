@@ -112,7 +112,81 @@ namespace tupleToArray {
     type test4 = Expect<Equal<res4, (1 | 2 | 3)[]>>;
 }
 
+// number[] that starts with 0
+type AreaCode = [0, ...number[]];
+
+// string[] that ends with a `!`
+type Exclamation = [...string[], "!"];
+
+// non-empty list of strings
+type FullName = [string, ...string[]];
+
+// starts and ends with a zero
+type Padded = [0, ...number[], 0];
+
 /**
  * Create a generic `NonEmptyArray` type that represents 
  * Arrays that contain at least one element.
  */
+namespace nonEmptyArray {
+    type NonEmptyArray<T> = [T, ...T[]];
+
+    function sendMail(addresses: NonEmptyArray<string>) {
+
+    }
+
+    sendMail(["75 rue Quincampoix", "75003 Paris"]);
+    sendMail(["123 5th Ave"]);
+    // @ts-expect-error
+    sendMail([]);
+    // ^^ [] ❌ isnt assignable to NonEmptyArray<string>
+}
+
+/**
+ * Implement a generic that gets the length
+ * of a tuple type.
+ *
+ * Hint: 
+ * How would you get the length of an array in JavaScript?
+ * The type-level version is very similar :)
+ */
+namespace length {
+    type Length<Tuple extends any[]> = Tuple['length'];
+
+    res1 = Length<[]>;
+    test1 = Expect<Equal<res1, 0>>;
+
+    res2 = Length<[any]>
+    test2 = Expect<Equal<res2, 1>>;
+
+    res3 = Length<[any, any]>;
+    test3 = Expect<Equal<res3, 2>>;
+
+    res4 = Length<[any, any, any]>;
+    test4 = Expect<Equal<res4, 3>>;
+}
+
+/**
+ * Implement a generic that gets the length
+ * of a tuple type, and adds one to it.
+ *
+ * This challenge may seem a bit random, but
+ * this is actually the basis of representing
+ * numbers and doing arithmetics at the type level!
+ */
+namespace LengthPlusOne {
+    type PlusOne<Tuple extends any[]> = [...Tuple[], any]['length'];
+
+    type res1 = PlusOne<[]>;
+    type test1 = Expect<Equal<res1, 1>>;
+
+    type res2 = PlusOne<[any]>;
+    type test2 = Expect<Equal<res2, 2>>;
+
+    type res3 = PlusOne<[any, any]>;
+    type test3 = Expect<Equal<res3, 3>>;
+
+    type res4 = PlusOne<[any, any, any]>;
+    type test4 = Expect<Equal<res4, 4>>;
+}
+
