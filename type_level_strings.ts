@@ -60,3 +60,47 @@ namespace getFullName {
     const res2 = getFullName('Sreytouch', 'Keang');
     type test2 = <Expect<Equal<re2, 'Sreytouch Keang'>>
 };
+
+/**
+ * Type the HTTPHeaders object so that it has an `Authentication`
+ * property that starts with `Bearer ` and ends with a JWT token.
+ *
+ * Note: JWT tokens contain 3 parts, separated by dots.
+ * More info on https://jwt.io
+ * 
+ * Hint: You shouldn't need a conditional type.
+ */
+namespace headers {
+    type HTTPHeaders = {
+        Authentication: `Bearer ${string}.${string}.${string}`
+    }
+
+    const test1: HTTPHeaders = {
+        // this is the correct authentication header
+        Authentication:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtIjoiWW91J3JlIGEgbmVyZCA7KSJ9.gfB7ECp1ePeIB4Mh_3Ypci4y7jFjMH9w_BB4rZcMvQM"
+    }
+}
+
+/**
+ * Type the `isMetricsQuery` function to only take
+ * valid metric queries, which look like this:
+ * `some.metric.name{filters} by {groups}`
+ */
+namespace isMetricsQuery {
+    declare function isMetricsQuery(
+        query: `${string}.${string}{${string}} by {${string}}`
+    ): true;
+
+    // ✅
+  isMetricsQuery(`react.mount{component:univiz} by {viz}`);
+  
+  // ✅
+  isMetricsQuery(`http.request{view} by {endpoint}`);
+
+  // @ts-expect-error: ❌
+  isMetricsQuery('this is definitely not a metrics query.');
+
+  // @ts-expect-error: ❌
+  isMetricsQuery('oops.no.filters by {🙀}');
+}
