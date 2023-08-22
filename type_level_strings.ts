@@ -92,7 +92,7 @@ namespace isMetricsQuery {
         query: `${string}.${string}{${string}} by {${string}}`
     ): true;
 
-    // ✅
+   // ✅
   isMetricsQuery(`react.mount{component:univiz} by {viz}`);
   
   // ✅

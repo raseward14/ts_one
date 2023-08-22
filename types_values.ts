@@ -1,3 +1,4 @@
+import '@types/jest';
 // 1. Types and Values
 // language of values -> code that runs in produciton
 // language of types -> completely erased before the code reaches out users
