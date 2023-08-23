@@ -78,3 +78,60 @@ namespace dropFirst {
     type res3 = DropFirst<[]>;
     type test3 =  Expect<Equal<res3, []>>;
 };
+
+/**
+ * Implement a generic that extracts
+ * the last element of a tuple.
+ */
+namespace last {
+    type Last<Tuple extends any[]> = Tuple extends [...any[], LastItem]
+    ? LastItem
+    : never;
+
+    type res1 = Last<[1, 2, 3]>;
+    type test1 = Expect<Equal<res1, 3>>;
+
+    type res2 = Last<[1]>;
+    type test2 = Expect<Equal<res2, 1>>;
+
+    type res3 = Last<[]>;
+    type test3 = Expect<Equal<res3, never>>;
+}
+
+/**
+ * Implement generic type that takes a string literal
+ * and only return its first word.
+ */
+namespace getFirstWord {
+    type GetFirstWord<Str> = Str extends `${infer FirstWord} ${infer LastString}`
+    ? FirstWord
+    : Str;
+
+    type res1 = GetFirstWord<"Frontend Summit 🎉">;
+    type test1 = Expect<Equal<res1, "Frontend">>;
+
+    type res2 = GetFirstWord<"🔥">;
+    type test2 = Expect<Equal<res2, "🔥">>;
+
+    type res3 = GetFirstWord<"Albus Percival Wulfric Brian Dumbledore">;
+    type test3 = Expect<Equal<res3, "Albus">>;
+}
+
+/**
+ * Write a type-level `GetGroups` function that
+ * extracts the comma separated grouping tags from a metric query.
+ * 
+ * For example, given the string "some.metric{filter} by {a,b,c}",
+ * `GetGroups` should return "a,b,c".
+ */
+namespace getGroups {
+    type GetGroups<Query> = Query extends `${string} by {${GroupTags}}`
+    ? GroupTags
+    : '';
+
+    type groups1 = GetGroups<"system.cpu.user{*} by {env,account,service}">;
+    type test1 = Expect<Equal<groups1, "env,account,service">>;
+
+    type groups2 = GetGroups<"perf.render.duration{component:univiz} by {view,viz}">;
+    type test2 = Expect<Equal<groups2, "view,viz">>;
+}
